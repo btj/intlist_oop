@@ -1,5 +1,6 @@
 package intlist_oop;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 class Node {
@@ -13,11 +14,27 @@ class Node {
  */
 public class IntList {
 	
+	/**
+	 * @invar {@code firstNode} is not null
+	 *     | firstNode != null
+	 * @invar The linked list does not have a cycle
+	 *     | !isCyclic()
+	 */
 	private Node firstNode;
+	
+	private boolean isCylic() {
+		ArrayList<Node> nodesSeen = new ArrayList<Node>();
+		for (Node currentNode = firstNode; currentNode != null; currentNode = currentNode.next) {
+			if (nodesSeen.contains(currentNode))
+				return true;
+			nodesSeen.add(currentNode);
+		}
+		return false;
+	}
 	
 	public int getSize() {
 		int size = 0;
-		Node currentNode = firstNode;
+		Node currentNode = firstNode.next;
 		while (currentNode != null) {
 			size++;
 			currentNode = currentNode.next;
@@ -40,7 +57,7 @@ public class IntList {
 		if (!(0 <= index && index < getSize()))
 			throw new IllegalArgumentException("index out of range");
 		
-		Node currentNode = firstNode;
+		Node currentNode = firstNode.next;
 		for (int i = 0; i < index; i++)
 			currentNode = currentNode.next;
 		return currentNode.value;
@@ -48,7 +65,7 @@ public class IntList {
 	
 	public int[] getElements() {
 		int[] elements = new int[getSize()];
-		Node currentNode = firstNode;
+		Node currentNode = firstNode.next;
 		for (int i = 0; i < elements.length; i++) {
 			elements[i] = currentNode.value;
 			currentNode = currentNode.next;
@@ -60,7 +77,9 @@ public class IntList {
 	 * @post This object's list of elements is empty.
 	 *     | getSize() == 0
 	 */
-	public IntList() {}
+	public IntList() {
+		firstNode = new Node();
+	}
 	
 	/**
 	 * Adds the given value to the end of this list of integers.
@@ -73,16 +92,11 @@ public class IntList {
 	 *     | getElements()[old(getSize())] == value
 	 */
 	public void add(int value) {
-		if (firstNode != null) {
-			Node currentNode = firstNode;
-			while (currentNode.next != null)
-				currentNode = currentNode.next;
-			currentNode.next = new Node();
-			currentNode.next.value = value;
-		} else {
-			firstNode = new Node();
-			firstNode.value = value;
-		}
+		Node currentNode = firstNode;
+		while (currentNode.next != null)
+			currentNode = currentNode.next;
+		currentNode.next = new Node();
+		currentNode.next.value = value;
 	}
 
 }
