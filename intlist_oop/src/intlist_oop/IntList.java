@@ -99,4 +99,27 @@ public class IntList {
 		currentNode.next.value = value;
 	}
 
+	/**
+	 * Removes the element at the given index from this list of integers.
+	 * 
+	 * @throws IllegalArgumentException if the index is out of range
+	 *     | !(0 <= index && index < getSize())
+	 * @post This object's size equals its old size minus one.
+	 *     | getSize() == old(getSize()) - 1
+	 * @post The elements of this list at indices less than the given index have remained unchanged.
+	 *     | Arrays.equals(getElements(), 0, index, old(getElements()), 0, index)
+	 * @post The elements of this list at indices not less than the given index equal
+	 *       the old elements at the next greater index.
+	 *     | Arrays.equals(getElements(), index, getSize(), old(getElements()), index + 1, old(getSize()))
+	 */
+	public void remove(int index) {
+		if (!(0 <= index && index < getSize()))
+			throw new IllegalArgumentException("index out of range");
+		
+		Node currentNode = firstNode;
+		for (int i = 0; i < index; i++, currentNode = currentNode.next) {
+		}
+		currentNode.next = currentNode.next.next;
+	}
+
 }

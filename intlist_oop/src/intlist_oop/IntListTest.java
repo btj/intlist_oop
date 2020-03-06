@@ -14,11 +14,20 @@ class IntListTest {
 		myList.add(7);
 		myList.add(42);
 		
-		assert myList.getSize() == 2;
-		assert myList.get(0) == 7;
-		assert myList.get(1) == 42;
-		assert Arrays.equals(myList.getElements(), new int[] {7, 42});
-		//assert myList.getElements() == new int[] {7, 42}; // NOT CORRECT
+		assertEquals(2, myList.getSize());
+		assertEquals(7, myList.get(0));
+		assertEquals(42, myList.get(1));
+		assertTrue(Arrays.equals(myList.getElements(), new int[] {7, 42}));
+		
+		myList.add(33);
+		myList.remove(1);
+		assertEquals(2, myList.getSize());
+		assertEquals(7, myList.get(0));
+		assertEquals(33, myList.get(1));
+		assertTrue(Arrays.equals(myList.getElements(), new int[] {7, 33}));
+		
+		myList.remove(0);
+		assertTrue(Arrays.equals(myList.getElements(), new int[] {33}));
 	}
 	
 	@Test
